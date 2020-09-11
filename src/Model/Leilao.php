@@ -17,6 +17,9 @@ class Leilao
 
     public function recebeLance(Lance $lance)
     {
+        if(!empty($this->lances) && $this->isTheLastUser($lance)){
+            return;
+        }
         $this->lances[] = $lance;
     }
 
@@ -26,5 +29,10 @@ class Leilao
     public function getLances(): array
     {
         return $this->lances;
+    }
+
+    private function isTheLastUser(Lance $lance) : bool
+    {
+        return $lance->getUsuario() === $this->lances[count($this->lances) - 1]->getUsuario();
     }
 }
